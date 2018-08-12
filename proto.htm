@@ -1,0 +1,34 @@
+<html>
+<head>
+	<title>Typesetter test</title>
+</head>
+<body>
+	<textarea id="texti"></textarea>
+	<button id="render">Render</button>
+	<input id="size" placeholder="font size in pixel" value="16"/>
+	<input id="family" placeholder="font family" value="Calibri"/>
+	<canvas id="can" width="1200" height="1200"></canvas>
+	<div id="ref" style="height:1000;width:1000;font:32px Calibri;word-spacing:0px;"></div>
+	<script src="typesetter.js"></script>
+	<script>
+		var canv=document.getElementById("can");
+		var texta=document.getElementById("texti");
+		var sizea=document.getElementById("size");
+		var fama=document.getElementById("family");
+		var cc=new Canv(canv);
+		var sqr=(x)=>x*x;
+		var dx=(x)=>x+1/x;
+		function process(){
+			var str=texta.value.split(' ');
+			var size=Number(sizea.value);
+			var family=fama.value.split(',');
+			var Font1=new FontDec(family,size);
+			var Font2=new FontDec(family,size*0.8);
+			var object=size/5;
+			typeset(cc,str.map((x)=>new TextBlock(x,Math.random()>0.5?Font1:Font2)),1000,object,(x)=>sqr(dx(x/object+1)-2),size*1.2,50,50);
+			ref.innerHTML=str.join(' ');
+		}
+		document.getElementById("render").addEventListener("click",process);
+	</script>
+</body>
+</html>
